@@ -692,7 +692,7 @@ def extract_bc_args():
     parser.add_argument('--disable-verify',
                         dest='disableVerify',
                         help='Do not run the verifier',
-                        default=False)
+                        action='store_true')
     pArgs = parser.parse_args(namespace=ExtractedArgs())
 
 
