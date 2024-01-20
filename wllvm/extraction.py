@@ -241,7 +241,13 @@ def executeLinker(linkCmd):
     return exitCode
 
 def incrementallyLinkFiles(pArgs, fileNames):
-    linkCmd = [pArgs.llvmLinker, '-v'] if pArgs.verboseFlag else [pArgs.llvmLinker]
+    linkCmd = [pArgs.llvmLinker]
+    
+    if pArgs.verboseFlag:
+        linkCmd.append('-v')
+        
+    if pArgs.disableVerify:
+        linkCmd.append('-disable-verify')
 
     linkCmd.append(f'-o={pArgs.outputFile}')
 
@@ -268,8 +274,14 @@ def incrementallyLinkFiles(pArgs, fileNames):
 
 
 def linkFiles(pArgs, fileNames):
-    linkCmd = [pArgs.llvmLinker, '-v'] if pArgs.verboseFlag else [pArgs.llvmLinker]
-
+    linkCmd = [pArgs.llvmLinker]
+    
+    if pArgs.verboseFlag:
+        linkCmd.append('-v')
+        
+    if pArgs.disableVerify:
+        linkCmd.append('-disable-verify')
+        
     linkCmd.append(f'-o={pArgs.outputFile}')
 
     fileNames = map(getBitcodePath, fileNames)
@@ -677,6 +689,10 @@ def extract_bc_args():
                         'added file extension (.'+ moduleExtension + ' for bitcode '+
                         'modules and .' + bitCodeArchiveExtension +' for bitcode archives)',
                         default=None)
+    parser.add_argument('--disable-verify',
+                        dest='disableVerify',
+                        help='Do not run the verifier',
+                        default=False)
     pArgs = parser.parse_args(namespace=ExtractedArgs())
 
 
