@@ -359,7 +359,7 @@ class ArgumentListFilter:
                 # If no action has been specified, this is a zero-argument
                 # flag that we should just keep.
                 if not matched:
-                    _logger.warning('Did not recognize the compiler flag "%s"', currentItem)
+                    _logger.info('Did not recognize the compiler flag "%s"', currentItem)
                     self.compileUnaryCallback(currentItem)
 
         if DUMPING:
